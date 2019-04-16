@@ -21,6 +21,7 @@ class Ping {
 			byte[] buf = mess.getBytes();
 			DatagramPacket ping = new DatagramPacket(buf,buf.length,geek,s1Port);
 			client.send(ping);
+			
 			buf = new byte[2048];
 			DatagramPacket received =  new DatagramPacket(buf,buf.length);
 			try{
@@ -61,11 +62,27 @@ class Ping {
 					sender = Integer.parseInt(split[1]);
 					System.out.println(sender + "'s successor is " + split[2]);
 					int successor = Integer.parseInt(split[2]);
-					if(successor == p.getId() && p.getP1() != 0 && p.getP2() != 0) {
+/*					if(successor == p.getId() && p.getP1() != 0 && p.getP2() != 0) {
 						if(p.getP1() != sender) {
 							p.setP2(p.getP1());		
 							p.setP1(sender);
 						}
+					}*/
+					if(p.getP1() != 0 && p.getP2() != 0) {
+						if(sender != p.getP1() && sender != p.getP2()) {
+							System.out.println("One of the successor departs !!!!!!!!!!!!!");
+							if(successor == p.getId()) {
+								p.setP1(sender);
+							}
+							else {
+								p.setP2(sender);
+							}
+						}
+						else if(successor == p.getId() && p.getP1() != sender) {
+							p.setP2(p.getP1());		
+							p.setP1(sender);
+						}
+
 					}
 					System.out.println("A ping request message was received from Peer " + sender + ".");
 					if(p.getP1() == 0 && p.getP2() == 0) {
@@ -81,7 +98,7 @@ class Ping {
 					try{
 						server.send(ping);
 					}catch (IOException e) {
-						e.printStackTrace();
+						
 					}
 					sender = -1;
 					split = null;
