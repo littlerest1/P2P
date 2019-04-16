@@ -8,12 +8,12 @@ public class cdht {
 	private static int port = 5000;
 	private static String ipAddress = "127.0.0.1"; 
 	private static DatagramSocket socket = null;
-	private static ServerSocket welcomeSocket = null;
 	private static boolean Succ1 = false;	
 	private static boolean Succ2 = false;
 	private static boolean exist1 = false;
 	private static boolean exist2 = false;
 	private static Peer peer = null;
+	private static long startTime = System.currentTimeMillis();
 	private final static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 	private final static ScheduledExecutorService scheduler1 = Executors.newScheduledThreadPool(1);
 	
@@ -26,8 +26,10 @@ public class cdht {
 		int s1 = Integer.parseInt(args[1]);
 		int s2 = Integer.parseInt(args[2]);
 		int MSS = Integer.parseInt(args[3]);
+		double pro = Double.parseDouble(args[4]);
 		peer = new Peer(curr,s1,s2);
-	
+		peer.setMSS(MSS);
+		peer.setRate(pro);
 		
 		(new Thread(new Runnable() {
 			
@@ -80,7 +82,7 @@ public class cdht {
 			@Override
 			public void run() {
 				try {
-					TCP.Receive(peer);
+					TCP.Receive(peer,startTime);
 				}catch(Exception e) {
 					e.printStackTrace();
 				}

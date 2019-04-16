@@ -19,7 +19,7 @@ class TCP {
 		}
 	}
 	
-	public static void Receive(Peer p) throws Exception{
+	public static void Receive(Peer p,long startTime) throws Exception{
 		int server = p.getPort();
 		ServerSocket welcomeSocket = new ServerSocket(server);
 		InetAddress serverIP = InetAddress.getByName("127.0.0.1");
@@ -46,6 +46,7 @@ class TCP {
 					DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
 					outToServer.writeBytes(reply+'\n');
 					System.out.println("A response message, destined for peer " + from + ", has been sent");
+					Transfer.fileSender(filename,from, p,startTime);
 				}
 				else {
 					System.out.println("File " + filename + " is not stored here");
@@ -59,6 +60,7 @@ class TCP {
 				filename = Split[1];
 				from = Integer.parseInt(Split[3]);
 				System.out.println("Received a response message from peer " + from + ", which has the file " + filename);
+				Transfer.fileReceiver(filename,from, p,startTime);
 			}
 		}
 	}

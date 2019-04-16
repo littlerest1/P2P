@@ -21,6 +21,7 @@ class Ping {
 			byte[] buf = mess.getBytes();
 			DatagramPacket ping = new DatagramPacket(buf,buf.length,geek,s1Port);
 			client.send(ping);
+			
 			buf = new byte[2048];
 			DatagramPacket received =  new DatagramPacket(buf,buf.length);
 			try{

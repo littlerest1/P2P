@@ -7,7 +7,9 @@ class Peer {
 	private int port = -1;
 	private int s1 = 0;
 	private int s2 = 0;
-
+	private int MSS = 0;
+	private double rate = 0.0;
+	
 	public Peer(int id,int s1,int s2) {
 		this.id = id;
 		this.s1 = s1;
@@ -17,6 +19,22 @@ class Peer {
 	
 	public int getId() {
 		return this.id;
+	}
+	
+	public void setMSS(int MSS) {
+		this.MSS = MSS;
+	}
+	
+	public int getMSS() {
+		return this.MSS;
+	}
+	
+	public void setRate(double pro) {
+		this.rate = pro;
+	}
+	
+	public double getRate() {
+		return this.rate;
 	}
 	
 	public void setP1(int p1) {
